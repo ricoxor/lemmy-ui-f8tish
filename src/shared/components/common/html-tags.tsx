@@ -24,7 +24,7 @@ export class HtmlTags extends Component<HtmlTagsProps, any> {
     return (
       <Helmet title={this.props.title}>
         <html lang={I18NextService.i18n.resolvedLanguage} />
-
+        <meta name="ahrefs-site-verification" content="d8e719c0c5fa1fe366c1e31f8368e578723e3f8e820e0b2a87617f80a6e76472"></meta>
         {["title", "og:title", "twitter:title"].map(t => (
           <meta key={t} property={t} content={this.props.title} />
         ))}

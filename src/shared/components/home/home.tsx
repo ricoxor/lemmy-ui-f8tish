@@ -13,19 +13,20 @@ import {
   updatePersonBlock,
   voteDisplayMode,
 } from "@utils/app";
+import { isBrowser, snapToTop } from "@utils/browser";
 import {
   getQueryParams,
   getQueryString,
   getRandomFromList,
   resourcesSettled,
 } from "@utils/helpers";
-import { scrollMixin } from "../mixins/scroll-mixin";
 import type { QueryParams, StringBoolean } from "@utils/types";
 import { RouteDataResponse } from "@utils/types";
 import { NoOptionI18nKeys } from "i18next";
 import { Component, InfernoNode, MouseEventHandler, linkEvent } from "inferno";
 import { T } from "inferno-i18next-dess";
 import { Link } from "inferno-router";
+import { RouteComponentProps } from "inferno-router/dist/Route";
 import {
   AddAdmin,
   AddModToCommunity,
@@ -78,6 +79,7 @@ import {
   InitialFetchRequest,
 } from "../../interfaces";
 import { mdToHtml } from "../../markdown";
+import { IRoutePropsWithFetch } from "../../routes";
 import { FirstLoadService, I18NextService, UserService } from "../../services";
 import {
   EMPTY_REQUEST,
@@ -86,27 +88,25 @@ import {
   RequestState,
   wrapClient,
 } from "../../services/HttpService";
-import { tippyMixin } from "../mixins/tippy-mixin";
 import { toast } from "../../toast";
+import { getHttpBaseInternal } from "../../utils/env";
 import { CommentNodes } from "../comment/comment-nodes";
 import { DataTypeSelect } from "../common/data-type-select";
 import { HtmlTags } from "../common/html-tags";
 import { Icon } from "../common/icon";
 import { ListingTypeSelect } from "../common/listing-type-select";
-import { SortSelect } from "../common/sort-select";
-import { CommunityLink } from "../community/community-link";
-import { PostListings } from "../post/post-listings";
-import { SiteSidebar } from "./site-sidebar";
-import { PaginatorCursor } from "../common/paginator-cursor";
-import { getHttpBaseInternal } from "../../utils/env";
 import {
   CommentsLoadingSkeleton,
   PostsLoadingSkeleton,
 } from "../common/loading-skeleton";
-import { RouteComponentProps } from "inferno-router/dist/Route";
-import { IRoutePropsWithFetch } from "../../routes";
+import { PaginatorCursor } from "../common/paginator-cursor";
 import PostHiddenSelect from "../common/post-hidden-select";
-import { isBrowser, snapToTop } from "@utils/browser";
+import { SortSelect } from "../common/sort-select";
+import { CommunityLink } from "../community/community-link";
+import { scrollMixin } from "../mixins/scroll-mixin";
+import { tippyMixin } from "../mixins/tippy-mixin";
+import { PostListings } from "../post/post-listings";
+import { SiteSidebar } from "./site-sidebar";
 
 interface HomeState {
   postsRes: RequestState<GetPostsResponse>;
@@ -149,7 +149,7 @@ function getRss(listingType: ListingType, sort: SortType) {
       const auth = myAuth();
       rss = auth ? `/feeds/front/${auth}.xml${queryString}` : undefined;
       break;
-    }
+    } 
   }
 
   return (

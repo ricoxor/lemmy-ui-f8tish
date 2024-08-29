@@ -366,7 +366,7 @@ export class PostListing extends Component<PostListingProps, PostListingState> {
           href={url}
           rel={relTags}
           title={url}
-          target={this.linkTarget}
+          target="_blank"
         >
           {this.imgThumb(this.imageSrc)}
           <Icon
@@ -431,7 +431,7 @@ export class PostListing extends Component<PostListingProps, PostListingState> {
             href={url}
             title={url}
             rel={relTags}
-            target={this.linkTarget}
+            target="_blank"
           >
             <div className="thumbnail rounded bg-light d-flex justify-content-center">
               <Icon icon="external-link" classes="d-flex align-items-center" />
@@ -527,6 +527,7 @@ export class PostListing extends Component<PostListingProps, PostListingState> {
                 href={url}
                 title={url}
                 rel={relTags}
+                target="_blank"
                 dangerouslySetInnerHTML={mdToHtmlInline(post.name)}
               ></a>
             ) : (
@@ -622,6 +623,7 @@ export class PostListing extends Component<PostListingProps, PostListingState> {
                 href={url}
                 title={url}
                 rel={relTags}
+                target="_blank"
               >
                 {linkName}
               </a>
