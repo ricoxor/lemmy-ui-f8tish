@@ -30,6 +30,10 @@ export const relTags = "noopener nofollow";
 export const emDash = "\u2014";
 export const authCookieName = "jwt";
 export const adultConsentCookieKey = "adultConsent";
+export const allowExternalLinks = [
+  "kinkyquests.com",
+  "jeuxpornogratuits.com"
+]
 
 // No. of max displayed communities per
 // page on route "/communities"

@@ -1,12 +1,15 @@
 import { initializeSite, isAuthPath } from "@utils/app";
 import { getHttpBaseInternal } from "@utils/env";
+import { getQueryString } from "@utils/helpers";
 import { ErrorPageData } from "@utils/types";
 import type { Request, Response } from "express";
+import { parsePath } from "history";
 import { StaticRouter, matchPath } from "inferno-router";
 import { Match } from "inferno-router/dist/Route";
 import { renderToString } from "inferno-server";
 import { GetSiteResponse, LemmyHttp } from "lemmy-js-client";
 import App from "../../shared/components/app/app";
+import { adultConsentCookieKey } from "../../shared/config";
 import {
   InitialFetchRequest,
   IsoDataOptionalSite,
@@ -14,21 +17,18 @@ import {
 } from "../../shared/interfaces";
 import { routes } from "../../shared/routes";
 import {
+  I18NextService,
+  LanguageService,
+  UserService,
+} from "../../shared/services/";
+import {
   FailedRequestState,
   wrapClient,
 } from "../../shared/services/HttpService";
 import { createSsrHtml } from "../utils/create-ssr-html";
 import { getErrorPageData } from "../utils/get-error-page-data";
-import { setForwardedHeaders } from "../utils/set-forwarded-headers";
 import { getJwtCookie } from "../utils/has-jwt-cookie";
-import {
-  I18NextService,
-  LanguageService,
-  UserService,
-} from "../../shared/services/";
-import { parsePath } from "history";
-import { getQueryString } from "@utils/helpers";
-import { adultConsentCookieKey } from "../../shared/config";
+import { setForwardedHeaders } from "../utils/set-forwarded-headers";
 
 export default async (req: Request, res: Response) => {
   try {

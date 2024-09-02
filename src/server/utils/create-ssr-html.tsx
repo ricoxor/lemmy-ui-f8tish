@@ -5,10 +5,10 @@ import serialize from "serialize-javascript";
 import sharp from "sharp";
 import { favIconPngUrl, favIconUrl } from "../../shared/config";
 import { IsoDataOptionalSite } from "../../shared/interfaces";
-import { buildThemeList } from "./build-themes-list";
-import { fetchIconPng } from "./fetch-icon-png";
 import { findTranslationChunkNames } from "../../shared/services/I18NextService";
 import { findDateFnsChunkNames } from "../../shared/utils/app/setup-date-fns";
+import { buildThemeList } from "./build-themes-list";
+import { fetchIconPng } from "./fetch-icon-png";
 
 const customHtmlHeader = process.env["LEMMY_UI_CUSTOM_HTML_HEADER"] || "";
 
@@ -117,7 +117,6 @@ export async function createSsrHtml(
     </style>
 
     <!-- Required meta tags -->
-    <meta name="Description" content="Lemmy">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link

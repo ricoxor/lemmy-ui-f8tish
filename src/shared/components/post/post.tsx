@@ -16,19 +16,20 @@ import {
 } from "@utils/app";
 import { isBrowser } from "@utils/browser";
 import {
+  bareRoutePush,
   debounce,
   getApubName,
   getQueryParams,
   getQueryString,
   randomStr,
   resourcesSettled,
-  bareRoutePush,
 } from "@utils/helpers";
-import { scrollMixin } from "../mixins/scroll-mixin";
 import { isImage } from "@utils/media";
 import { QueryParams, RouteDataResponse } from "@utils/types";
 import classNames from "classnames";
+import { compareAsc, compareDesc } from "date-fns";
 import { Component, createRef, linkEvent } from "inferno";
+import { RouteComponentProps } from "inferno-router/dist/Route";
 import {
   AddAdmin,
   AddModToCommunity,
@@ -87,6 +88,7 @@ import {
   CommentViewType,
   InitialFetchRequest,
 } from "../../interfaces";
+import { IRoutePropsWithFetch } from "../../routes";
 import { FirstLoadService, I18NextService, UserService } from "../../services";
 import {
   EMPTY_REQUEST,
@@ -96,16 +98,14 @@ import {
   wrapClient,
 } from "../../services/HttpService";
 import { toast } from "../../toast";
+import { getHttpBaseInternal } from "../../utils/env";
 import { CommentForm } from "../comment/comment-form";
 import { CommentNodes } from "../comment/comment-nodes";
 import { HtmlTags } from "../common/html-tags";
 import { Icon, Spinner } from "../common/icon";
 import { Sidebar } from "../community/sidebar";
+import { scrollMixin } from "../mixins/scroll-mixin";
 import { PostListing } from "./post-listing";
-import { getHttpBaseInternal } from "../../utils/env";
-import { RouteComponentProps } from "inferno-router/dist/Route";
-import { IRoutePropsWithFetch } from "../../routes";
-import { compareAsc, compareDesc } from "date-fns";
 
 const commentsShownInterval = 15;
 
@@ -265,8 +265,7 @@ export class Post extends Component<PostRouteProps, PostState> {
     this.handlePurgePost = this.handlePurgePost.bind(this);
     this.handleFeaturePost = this.handleFeaturePost.bind(this);
     this.handleHidePost = this.handleHidePost.bind(this);
-    this.handleScrollIntoCommentsClick =
-      this.handleScrollIntoCommentsClick.bind(this);
+    this.handleScrollIntoCommentsClick = this.handleScrollIntoCommentsClick.bind(this); 
 
     // Only fetch the data if coming from another route
     if (FirstLoadService.isFirstLoad) {
@@ -576,6 +575,7 @@ export class Post extends Component<PostRouteProps, PostState> {
                 onMarkPostAsRead={() => {}}
                 onHidePost={this.handleHidePost}
                 onScrollIntoCommentsClick={this.handleScrollIntoCommentsClick}
+                isDetailPage={true} // Add this prop
               />
               <div ref={this.commentSectionRef} className="mb-2" />
 

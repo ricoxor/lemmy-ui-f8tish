@@ -23,18 +23,14 @@ export class ErrorPage extends Component<any, any> {
             : I18NextService.i18n.t("not_found_page_title")}
         </h1>
         {errorPageData ? (
-          <T i18nKey="error_page_paragraph" className="p-4" parent="p">
-            #<a href="https://lemmy.ml/c/lemmy_support">#</a>#
-            <a href="https://matrix.to/#/#lemmy-space:matrix.org">#</a>#
-          </T>
+          <p>{I18NextService.i18n.t("error_page_paragraph")}</p>
         ) : (
           <p>{I18NextService.i18n.t("not_found_page_message")}</p>
         )}
-        {!errorPageData && (
-          <Link to="/" replace>
-            {I18NextService.i18n.t("not_found_return_home_button")}
-          </Link>
-        )}
+        <Link to="/" className="btn btn-primary btn-lg mt-2 mb-2 shadow-sm rounded-md">
+          <i className="fas fa-home mr-2"></i>
+          {I18NextService.i18n.t("not_found_return_home_button")}
+        </Link>
         {errorPageData?.adminMatrixIds &&
           errorPageData.adminMatrixIds.length > 0 && (
             <>
@@ -55,6 +51,7 @@ export class ErrorPage extends Component<any, any> {
             </>
           )}
         {errorPageData?.error && (
+          <p>
           <T
             i18nKey="error_code_message"
             parent="p"
@@ -64,6 +61,7 @@ export class ErrorPage extends Component<any, any> {
           >
             #<strong className="text-danger">#</strong>#
           </T>
+          </p>
         )}
       </div>
     );

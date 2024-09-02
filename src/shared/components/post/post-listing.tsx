@@ -38,7 +38,7 @@ import {
   SavePost,
   TransferCommunity,
 } from "lemmy-js-client";
-import { relTags, torrentHelpUrl } from "../../config";
+import { allowExternalLinks, relTags, torrentHelpUrl } from "../../config";
 import { IsoDataOptionalSite, VoteContentType } from "../../interfaces";
 import { mdToHtml, mdToHtmlInline } from "../../markdown";
 import { I18NextService, UserService } from "../../services";
@@ -74,6 +74,7 @@ interface PostListingProps {
   allLanguages: Language[];
   siteLanguages: number[];
   showCommunity?: boolean;
+  isDetailPage?: boolean;
   /**
    * Controls whether to show both the body *and* the metadata preview card
    */
@@ -151,6 +152,10 @@ export class PostListing extends Component<PostListingProps, PostListingState> {
       this.setState({
         imageExpanded: auto_expand && !(blur_nsfw && this.postView.post.nsfw),
       });
+    }
+    
+    if (this.props.isDetailPage) {
+      this.setState({ imageExpanded: true });
     }
 
     // Leave edit mode on navigation
@@ -265,7 +270,7 @@ export class PostListing extends Component<PostListingProps, PostListingState> {
     }
 
     // if direct video link or embedded video link
-    if (url && (isVideo(url) || post.embed_video_url)) {
+    if (url && (isVideo(url) || post.embed_video_url || (url.includes("v.redd.it") && !url.endsWith(".mp4")))) {
       return (
         <div className="embed-responsive ratio ratio-16x9 mt-3">
           <video
@@ -396,7 +401,7 @@ export class PostListing extends Component<PostListingProps, PostListingState> {
         </button>
       );
     } else if (url) {
-      if ((!this.props.hideImage && isVideo(url)) || post.embed_video_url) {
+      if ((!this.props.hideImage && isVideo(url)) || post.embed_video_url || (url.includes("v.redd.it") && !url.endsWith(".mp4"))) {
         return (
           <a
             className={classNames(
@@ -622,7 +627,7 @@ export class PostListing extends Component<PostListingProps, PostListingState> {
                 className="fst-italic link-dark link-opacity-75 link-opacity-100-hover"
                 href={url}
                 title={url}
-                rel={relTags}
+                rel={allowExternalLinks.includes(hostname(url)) ? undefined : relTags}
                 target="_blank"
               >
                 {linkName}

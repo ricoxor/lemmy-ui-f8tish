@@ -26,8 +26,8 @@ import {
   TransferCommunity,
 } from "lemmy-js-client";
 import { I18NextService } from "../../services";
-import { PostListing } from "./post-listing";
 import { RequestState } from "../../services/HttpService";
+import { PostListing } from "./post-listing";
 
 interface PostListingsProps {
   posts: PostView[];
@@ -106,6 +106,7 @@ export class PostListings extends Component<PostListingsProps, any> {
                 onTransferCommunity={this.props.onTransferCommunity}
                 onMarkPostAsRead={this.props.onMarkPostAsRead}
                 onHidePost={this.props.onHidePost}
+                isDetailPage={false}
               />
               {idx + 1 !== this.posts.length && <hr className="my-3" />}
             </>
